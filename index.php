@@ -1,5 +1,21 @@
 <?php
 
+    // Соединяемся с базой
+    $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
+    $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
+    $db_name = 'marlin-second'; // имя базы данных 
+    $db_user = 'root'; // имя пользователя для базы данных 
+    $db_password = ''; // пароль пользователя 
+    $charset = 'utf8'; // кодировка
+
+    $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
+    $pdo = new PDO($dsn, $db_user, $db_password);
+
+    $sql = 'SELECT * FROM comments';
+    $stmt = $pdo->query($sql);
+    $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+ /*   
     $comments = [
         [   'user'      => 'John Doe',
             'date'      => '15/08/2019',
@@ -14,6 +30,8 @@
             'date'      => '27/11/2017',
             'comment'   => 'Спасибо за подарок!']
     ];
+*/
+
 
 ?>
 
@@ -79,10 +97,10 @@
                                     <div class="media">
                                     <img src="img/no-user.jpg" class="mr-3" alt="..." width="64" height="64">
                                     <div class="media-body">
-                                        <h5 class="mt-0"> <?= $comment['user']; ?> </h5> 
+                                        <h5 class="mt-0"> <?= $comment['username']; ?> </h5> 
                                         <span><small> <?= $comment['date']; ?> </small></span>
                                         <p>
-                                            <?= $comment['comment']; ?>
+                                            <?= $comment['text']; ?>
                                         </p>
                                     </div>
                                     </div>
@@ -97,7 +115,7 @@
                             <div class="card-header"><h3>Оставить комментарий</h3></div>
 
                             <div class="card-body">
-                                <form action="/store" method="post">
+                                <form action="create-comment.php" method="post">
                                     <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Имя</label>
                                     <input name="name" class="form-control" id="exampleFormControlTextarea1" />
