@@ -12,7 +12,7 @@
     $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
     $pdo = new PDO($dsn, $db_user, $db_password);
 
-    $sql = 'SELECT * FROM comments';
+    $sql = 'SELECT * FROM comments ORDER BY id DESC';
     $stmt = $pdo->query($sql);
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
