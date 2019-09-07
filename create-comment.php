@@ -1,5 +1,6 @@
 <?php
-
+    session_start();
+    
     // Получаем данные из формы
     $username = $_POST['name'];
     $text = $_POST['text']; 
@@ -24,5 +25,7 @@
         var_dump($result);
         die;
     }
+
+    $_SESSION['flash'] = 'flash_massege';
 
     header('Location: index.php');

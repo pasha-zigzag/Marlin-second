@@ -1,4 +1,5 @@
 <?php
+    session_start();
 
     // Соединяемся с базой
     $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
@@ -89,9 +90,13 @@
                             <div class="card-header"><h3>Комментарии</h3></div>
 
                             <div class="card-body">
-                              <div class="alert alert-success" role="alert">
-                                Комментарий успешно добавлен
-                              </div>
+                                <?php if (isset($_SESSION['flash'])) : ?>
+                                    <div class="alert alert-success" role="alert">
+                                        Комментарий успешно добавлен
+                                    </div>
+                                <?php unset($_SESSION['flash']);
+                                    endif; 
+                                ?>
 
                                 <?php foreach ($comments as $comment) :?>
                                     <div class="media">
