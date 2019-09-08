@@ -16,6 +16,12 @@
     $stmt = $pdo->query($sql);
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    //Меняем формат даты
+    foreach($comments as $key => $data) {
+        $data['date'] = strtotime($data['date']);
+        $comments[$key]['date'] = date('d/m/Y', $data['date']);
+    }
+
  /*   
     $comments = [
         [   'user'      => 'John Doe',
