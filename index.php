@@ -56,6 +56,7 @@
 
     <!-- Styles -->
     <link href="css/app.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -96,13 +97,19 @@
                             <div class="card-header"><h3>Комментарии</h3></div>
 
                             <div class="card-body">
-                                <?php if (isset($_SESSION['flash'])) : ?>
+                                <?php if (isset($_SESSION['flash_success'])) : ?>
                                     <div class="alert alert-success" role="alert">
-                                        Комментарий успешно добавлен
+                                        <?= $_SESSION['flash_success'] ?>
                                     </div>
-                                <?php unset($_SESSION['flash']);
-                                    endif; 
-                                ?>
+                                <?php unset($_SESSION['flash_success']); ?>
+                                <?php endif; ?>
+
+                                <?php if (isset($_SESSION['flash_danger'])) : ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <?= $_SESSION['flash_danger'] ?>
+                                    </div>
+                                <?php unset($_SESSION['flash_danger']); ?>
+                                <?php endif; ?>
 
                                 <?php foreach ($comments as $comment) :?>
                                     <div class="media">
@@ -128,14 +135,31 @@
                             <div class="card-body">
                                 <form action="create-comment.php" method="post">
                                     <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Имя</label>
-                                    <input name="name" class="form-control" id="exampleFormControlTextarea1" />
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Сообщение</label>
-                                    <textarea name="text" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                  </div>
-                                  <button type="submit" class="btn btn-success">Отправить</button>
+                                        <label for="exampleFormControlTextarea1">Имя</label>
+                                        <input name="name" class="form-control" id="exampleFormControlTextarea1" />
+                                        
+                                        <?php if (isset($_SESSION['flash_user'])) : ?>
+                                            <span class="red">
+                                                <?= $_SESSION['flash_user'] ?>
+                                            </span>
+                                            <?php unset($_SESSION['flash_user']); ?>
+                                        <?php endif; ?>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">Сообщение</label>
+                                        <textarea name="text" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+                                        <?php if (isset($_SESSION['flash_text'])) : ?>
+                                            <span class="red">
+                                                <?= $_SESSION['flash_text'] ?>
+                                            </span>
+                                            <?php unset($_SESSION['flash_text']); ?>
+                                        <?php endif; ?>
+
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Отправить</button>
                                 </form>
                             </div>
                         </div>
