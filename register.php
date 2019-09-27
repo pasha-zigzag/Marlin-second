@@ -7,6 +7,8 @@
     $password = $_POST['password']; 
     $password_confirmation = $_POST['password_confirmation']; 
 
+    
+
     // Валидация данных
     if(empty($username)) {
         $_SESSION['flash_user'] = 'Введите имя пользователя';
@@ -42,7 +44,7 @@
     }
 
     //Хешируем пароль
-    $password = md5($password); 
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
     // Соединяемся с базой
     $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
