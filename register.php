@@ -24,10 +24,6 @@
         $_SESSION['flash_email'] = 'Не корректный Email';
     }
 
-    if ($password_confirmation !== $password) {
-        $_SESSION['flash_password'] = 'Введенные пароли не совпадают';
-    }
-
     if(empty($password)) {
         $_SESSION['flash_password'] = 'Введите пароль';
     } 
@@ -43,7 +39,7 @@
     if ($password_confirmation !== $password) {
         $_SESSION['flash_password'] = 'Введенные пароли не совпадают';
     }
-    
+
     if( isset($_SESSION['flash_user']) || isset($_SESSION['flash_email']) || isset($_SESSION['flash_password']) || isset($_SESSION['flash_password_confirmation']) ) {
         $_SESSION['flash_danger'] = 'Произошла ошибка!';
 
