@@ -36,10 +36,14 @@
         $_SESSION['flash_password_confirmation'] = 'Введите пароль еще раз';
     }
 
+    if(strlen($password) < 6 || strlen($password_confirmation) < 6) {
+        $_SESSION['flash_password'] = 'Длинна пароля должна быть минимум 6 символов';
+    }
+
     if ($password_confirmation !== $password) {
         $_SESSION['flash_password'] = 'Введенные пароли не совпадают';
     }
-
+    
     if( isset($_SESSION['flash_user']) || isset($_SESSION['flash_email']) || isset($_SESSION['flash_password']) || isset($_SESSION['flash_password_confirmation']) ) {
         $_SESSION['flash_danger'] = 'Произошла ошибка!';
 
