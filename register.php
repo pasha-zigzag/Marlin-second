@@ -20,6 +20,10 @@
         $_SESSION['flash_email'] = 'Введите Email';
     } 
 
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['flash_email'] = 'Не корректный Email';
+    }
+
     if ($password_confirmation !== $password) {
         $_SESSION['flash_password'] = 'Введенные пароли не совпадают';
     }
