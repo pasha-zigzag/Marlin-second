@@ -31,7 +31,8 @@ if($_POST['remember']) {
     setcookie('email', $email);
     setcookie('pass', password_hash($password, PASSWORD_DEFAULT) );
 } else {
-    unset($_COOKIE);
+    setcookie('email', '', 0);
+    setcookie('pass', '', 0);
 }
 
 // Соединяемся с базой
