@@ -20,7 +20,7 @@
         $_SESSION['flash_email'] = 'Введите Email';
     } 
 
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['flash_email'] = 'Не корректный Email';
     }
 
@@ -60,6 +60,18 @@
 
     $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
     $pdo = new PDO($dsn, $db_user, $db_password); 
+
+    //Проверка на дубликат Email
+    $sql = 'SELECT email FROM users WHERE email=:email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    $user = $stmt->fetchColumn();
+    if($user) {
+        $_SESSION['flash_danger'] = 'Пользователь с таким Email уже существует!';
+
+        header('Location: register-form.php');
+        die;
+    }
 
     $sql = 'INSERT INTO users (username, email, password) VALUES (:username, :email, :password)';
     $stmt = $pdo->prepare($sql);
