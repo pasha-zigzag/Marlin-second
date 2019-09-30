@@ -92,7 +92,10 @@
                             </li>
                         <?php else : ?>
                             <li class="nav-item">
-                                <a href="profile.php"><?php echo $user_email ?></a>
+                                <a class="nav-link" href="profile.php"><?php echo $user_email ?></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="logout.php">Выйти</a>
                             </li>
                         <?php endif; ?>
                     </ul>
