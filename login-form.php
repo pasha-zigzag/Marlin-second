@@ -69,13 +69,13 @@ session_start();
                                 <?php unset($_SESSION['flash_success']); ?>
                             <?php endif; ?>
 
-                                <form method="POST" action="login.php">
+                                <form method="POST" action="login.php" novalidate>
 
                                     <div class="form-group row">
                                         <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
 
                                         <div class="col-md-6">
-                                            <input id="email" type="email" class="form-control" name="email"  autocomplete="email" autofocus >
+                                            <input id="email" type="email" class="form-control" name="email" autofocus >
                                             <?php if (isset($_SESSION['flash_email'])) : ?>
                                                 <span class="invalid-feedback" role="alert" style="display: block;">
                                                 <strong><?= $_SESSION['flash_email']; ?></strong>

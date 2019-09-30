@@ -6,6 +6,27 @@ session_start();
 $email = $_POST['email']; 
 $password = $_POST['password']; 
 
+// Валидация данных
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['flash_email'] = 'Не корректный Email';
+}
+
+if(empty($email)) {
+    $_SESSION['flash_email'] = 'Введите Email';
+} 
+
+if(empty($password)) {
+    $_SESSION['flash_password'] = 'Введите пароль';
+}
+
+if( isset($_SESSION['flash_email']) || isset($_SESSION['flash_password']) ) {
+    $_SESSION['flash_danger'] = 'Произошла ошибка!';
+
+    header('Location: login-form.php');
+    die;
+}
+
 // Соединяемся с базой
 $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
 $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального

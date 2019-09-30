@@ -74,7 +74,7 @@ session_start();
                   <?php unset($_SESSION['flash_danger']); ?>
                   <?php endif; ?>
 
-                  <form method="POST" action="register.php">
+                  <form method="POST" action="register.php" novalidate>
                     <div class="form-group row">
                       <label for="name" class="col-md-4 col-form-label text-md-right">
                         Name
