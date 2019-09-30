@@ -1,6 +1,13 @@
 <?php
     session_start();
 
+    if(isset($_SESSION['user_id'])) {
+        $auth = true;
+        $user_email = $_SESSION['email'];
+    } else {
+        $auth = false;
+    }
+
     // Соединяемся с базой
     $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
     $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
@@ -78,12 +85,18 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        <?php if(!$auth) : ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="login.html">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="register-form.php">Register</a>
                             </li>
+                        <?php else : ?>
+                            <li class="nav-item">
+                                <a href="profile.php"><?php echo $user_email ?></a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

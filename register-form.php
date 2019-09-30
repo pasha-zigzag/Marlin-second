@@ -49,10 +49,10 @@ session_start();
             <ul class="navbar-nav ml-auto">
               <!-- Authentication Links -->
               <li class="nav-item">
-                <a class="nav-link" href="login.html">Login</a>
+                <a class="nav-link" href="login-form.php">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="register.html">Register</a>
+                <a class="nav-link" href="register-form.php">Register</a>
               </li>
             </ul>
           </div>
@@ -76,27 +76,21 @@ session_start();
 
                   <form method="POST" action="register.php">
                     <div class="form-group row">
-                      <label
-                        for="name"
-                        class="col-md-4 col-form-label text-md-right"
-                        >Name</label
-                      >
+                      <label for="name" class="col-md-4 col-form-label text-md-right">
+                        Name
+                      </label>
 
                       <div class="col-md-6">
-                        <input
-                          id="name"
-                          type="text"
-                          class="form-control"
-                          name="name"
-                          autofocus
-                        />
-                      </div>
-                      <?php if (isset($_SESSION['flash_user'])) : ?>
-                          <span class="red col-md-4 text-md-right">
-                              <?= $_SESSION['flash_user'] ?>
+                        <input id="name" type="text" class="form-control" name="name" autofocus/>
+                        <?php if (isset($_SESSION['flash_user'])) : ?>
+                          <span class="invalid-feedback" role="alert" style="display: block;">
+                            <strong><?= $_SESSION['flash_user']; ?></strong>
                           </span>
-                          <?php unset($_SESSION['flash_user']); ?>
-                      <?php endif; ?>
+                            
+                            <?php unset($_SESSION['flash_user']); ?>
+                        <?php endif; ?>
+                      </div>
+                      
                     </div>
 
                     <div class="form-group row">
@@ -113,13 +107,14 @@ session_start();
                           class="form-control"
                           name="email"
                         />
-                      </div>
-                      <?php if (isset($_SESSION['flash_email'])) : ?>
-                          <span class="red col-md-4 text-md-right">
-                              <?= $_SESSION['flash_email'] ?>
+                        <?php if (isset($_SESSION['flash_email'])) : ?>
+                          <span class="invalid-feedback" role="alert" style="display: block;">
+                            <strong><?= $_SESSION['flash_email']; ?></strong>
                           </span>
                           <?php unset($_SESSION['flash_email']); ?>
-                      <?php endif; ?>
+                        <?php endif; ?>
+                      </div>
+                      
                     </div>
 
                     <div class="form-group row">
@@ -136,13 +131,14 @@ session_start();
                           class="form-control"
                           name="password"
                         />
-                      </div>
-                      <?php if (isset($_SESSION['flash_password'])) : ?>
-                          <span class="red col-md-4 text-md-right">
-                              <?= $_SESSION['flash_password'] ?>
+                        <?php if (isset($_SESSION['flash_password'])) : ?>
+                          <span class="invalid-feedback" role="alert" style="display: block;">
+                            <strong><?= $_SESSION['flash_password']; ?></strong>
                           </span>
                           <?php unset($_SESSION['flash_password']); ?>
-                      <?php endif; ?>
+                        <?php endif; ?>
+                      </div>
+                      
                     </div>
 
                     <div class="form-group row">
@@ -159,13 +155,14 @@ session_start();
                           class="form-control"
                           name="password_confirmation"
                         />
-                      </div>
-                      <?php if (isset($_SESSION['flash_password_confirmation'])) : ?>
-                          <span class="red col-md-4 text-md-right">
-                              <?= $_SESSION['flash_password_confirmation'] ?>
+                        <?php if (isset($_SESSION['flash_password_confirmation'])) : ?>
+                          <span class="invalid-feedback" role="alert" style="display: block;">
+                            <strong><?= $_SESSION['flash_password_confirmation']; ?></strong>
                           </span>
                           <?php unset($_SESSION['flash_password_confirmation']); ?>
-                      <?php endif; ?>
+                        <?php endif; ?>
+                      </div>
+                      
                     </div>
 
                     <div class="form-group row mb-0">

@@ -16,28 +16,24 @@
         $_SESSION['flash_user'] = 'Введите корректное имя';
     }
 
-    if(empty($email)) {
-        $_SESSION['flash_email'] = 'Введите Email';
-    } 
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['flash_email'] = 'Не корректный Email';
     }
 
-    if(empty($password)) {
-        $_SESSION['flash_password'] = 'Введите пароль';
+    if(empty($email)) {
+        $_SESSION['flash_email'] = 'Введите Email';
     } 
 
-    if(empty($password_confirmation)) {
-        $_SESSION['flash_password_confirmation'] = 'Введите пароль еще раз';
-    }
-
-    if(strlen($password) < 6 || strlen($password_confirmation) < 6) {
-        $_SESSION['flash_password'] = 'Длинна пароля должна быть минимум 6 символов';
-    }
-
-    if ($password_confirmation !== $password) {
-        $_SESSION['flash_password'] = 'Введенные пароли не совпадают';
+    if(!empty($password)) {
+        if(strlen($password) < 6) {
+            $_SESSION['flash_password'] = 'Длинна пароля должна быть минимум 6 символов';
+        } elseif (empty($password_confirmation)) {
+            $_SESSION['flash_password_confirmation'] = 'Введите пароль еще раз';
+        } elseif ($password_confirmation !== $password) {
+            $_SESSION['flash_password'] = 'Введенные пароли не совпадают';
+        }
+    } else {
+        $_SESSION['flash_password'] = 'Введите пароль';
     }
 
     if( isset($_SESSION['flash_user']) || isset($_SESSION['flash_email']) || isset($_SESSION['flash_password']) || isset($_SESSION['flash_password_confirmation']) ) {
@@ -86,4 +82,4 @@
 
     $_SESSION['flash_success'] = 'Вы успешно зарегестрировались!';
 
-    header('Location: login.php');
+    header('Location: login-form.php');
