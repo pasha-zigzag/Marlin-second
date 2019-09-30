@@ -1,13 +1,12 @@
 <?php
 
 session_start();
-    
+
 // Получаем данные из формы
 $email = $_POST['email']; 
 $password = $_POST['password']; 
 
 // Валидация данных
-
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $_SESSION['flash_email'] = 'Не корректный Email';
 }
@@ -25,6 +24,14 @@ if( isset($_SESSION['flash_email']) || isset($_SESSION['flash_password']) ) {
 
     header('Location: login-form.php');
     die;
+}
+
+//Cookie
+if($_POST['remember']) {
+    setcookie('email', $email);
+    setcookie('pass', password_hash($password, PASSWORD_DEFAULT) );
+} else {
+    unset($_COOKIE);
 }
 
 // Соединяемся с базой

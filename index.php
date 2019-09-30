@@ -28,25 +28,7 @@
         $data['date'] = strtotime($data['date']);
         $comments[$key]['date'] = date('d/m/Y', $data['date']);
     }
-
- /*   
-    $comments = [
-        [   'user'      => 'John Doe',
-            'date'      => '15/08/2019',
-            'comment'   => 'Какой замечательный сайт'],
-        [   'user'      => 'Milese Torneo',
-            'date'      => '03/01/2018',
-            'comment'   => 'Это просто фантастика'],
-        [   'user'      => 'Jane Salivan',
-            'date'      => '17/12/2017',
-            'comment'   => 'Ничего подобного в жизни не видела'],
-        [   'user'      => 'Annet Barsukova',
-            'date'      => '27/11/2017',
-            'comment'   => 'Спасибо за подарок!']
-    ];
-*/
-
-
+    
 ?>
 
 <!DOCTYPE html>
