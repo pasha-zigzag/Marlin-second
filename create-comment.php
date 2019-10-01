@@ -2,15 +2,8 @@
     session_start();
     
     // Получаем данные из формы
-    $username = $_POST['name'];
+    $user_id = $_SESSION['user_id'];
     $text = $_POST['text']; 
-
-    // Валидация данных
-    if(empty($username)) {
-        $_SESSION['flash_user'] = 'Введите имя пользователя';
-    }   elseif (strlen($username) > 15) {
-        $_SESSION['flash_user'] = 'Введите корректное имя';
-    }
 
     if(empty($text)) {
         $_SESSION['flash_text'] = 'Введите комментарий';
@@ -18,7 +11,7 @@
         $_SESSION['flash_text'] = 'Длинна комментария не должна превышать 255 символов';
     }
 
-    if( isset($_SESSION['flash_user']) || isset($_SESSION['flash_text']) ) {
+    if( isset($_SESSION['flash_text']) ) {
         $_SESSION['flash_danger'] = 'Произошла ошибка!';
 
         header('Location: index.php');
@@ -36,10 +29,10 @@
     $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
     $pdo = new PDO($dsn, $db_user, $db_password); 
 
-    $sql = 'INSERT INTO comments (username, text) VALUES (:username, :text)';
+    $sql = 'INSERT INTO comments (user_id, text) VALUES (:user_id, :text)';
     $stmt = $pdo->prepare($sql);
-    $result = $stmt->execute([  ':username'  => $username,
-                                ':text'      => $text]);
+    $result = $stmt->execute([  ':user_id'  => $user_id,
+                                ':text'     => $text]);
 
     if (!$result) {
         var_dump($result);

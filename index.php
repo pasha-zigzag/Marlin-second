@@ -16,6 +16,7 @@
     if(!empty($_SESSION['user_id'])) {
         $auth = true;
         $user_email = $_SESSION['email'];
+        $username = $_SESSION['username'];
     } elseif (!empty($_COOKIE['email'] && !empty($_COOKIE['pass']))) {
         $email = $_COOKIE['email'];
         $password = $_COOKIE['pass'];
@@ -33,9 +34,14 @@
                 die;
             }
         }
+    } else {
+        $auth = false;
     }
 
     $sql = 'SELECT * FROM comments ORDER BY id DESC';
+    $sql = 'SELECT users.username, comments.date, comments.text FROM comments
+    INNER JOIN users ON comments.user_id=users.id
+    ORDER BY users.id DESC';
     $stmt = $pdo->query($sql);
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -85,14 +91,14 @@
                         <!-- Authentication Links -->
                         <?php if(!$auth) : ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="login.html">Login</a>
+                                <a class="nav-link" href="login-form.php">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="register-form.php">Register</a>
                             </li>
                         <?php else : ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile.php"><?php echo $user_email ?></a>
+                                <a class="nav-link" href="profile.php"><?php echo $username ?></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="logout.php">Выйти</a>
@@ -142,42 +148,42 @@
                         </div>
                     </div>
                 
-                    <div class="col-md-12" style="margin-top: 20px;">
-                        <div class="card">
-                            <div class="card-header"><h3>Оставить комментарий</h3></div>
+                    <?php if($auth) : ?>
+                        <div class="col-md-12" style="margin-top: 20px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Оставить комментарий</h3>
+                                </div>
 
-                            <div class="card-body">
-                                <form action="create-comment.php" method="post">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">Имя</label>
-                                        <input name="name" class="form-control" id="exampleFormControlTextarea1" />
-                                        
-                                        <?php if (isset($_SESSION['flash_user'])) : ?>
-                                            <span class="red">
-                                                <?= $_SESSION['flash_user'] ?>
-                                            </span>
-                                            <?php unset($_SESSION['flash_user']); ?>
-                                        <?php endif; ?>
+                                <div class="card-body">
+                                    <form action="create-comment.php" method="post">
 
-                                    </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Сообщение</label>
+                                            <textarea name="text" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 
-                                    <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">Сообщение</label>
-                                        <textarea name="text" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            <?php if (isset($_SESSION['flash_text'])) : ?>
+                                                <span class="red">
+                                                    <?= $_SESSION['flash_text'] ?>
+                                                </span>
+                                                <?php unset($_SESSION['flash_text']); ?>
+                                            <?php endif; ?>
 
-                                        <?php if (isset($_SESSION['flash_text'])) : ?>
-                                            <span class="red">
-                                                <?= $_SESSION['flash_text'] ?>
-                                            </span>
-                                            <?php unset($_SESSION['flash_text']); ?>
-                                        <?php endif; ?>
-
-                                    </div>
-                                    <button type="submit" class="btn btn-success">Отправить</button>
-                                </form>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Отправить</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php else : ?>
+                        <div class="col-md-12" style="margin-top: 20px;">
+                            <div class="alert alert-primary text-center" role="alert">
+                                Чтобы оставлять комментарии <a href="login-form.php">авторизуйтесь</a>.
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+
                 </div>
             </div>
         </main>

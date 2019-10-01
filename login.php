@@ -46,7 +46,7 @@ $charset = 'utf8'; // кодировка
 $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
 $pdo = new PDO($dsn, $db_user, $db_password); 
 
-$sql = 'SELECT id, email, password FROM users WHERE email=:email';
+$sql = 'SELECT id, username, email, password FROM users WHERE email=:email';
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':email' => $email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -54,6 +54,7 @@ if($user) {
     if(password_verify($password, $user['password'])) {
         session_start();
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
         $_SESSION['email'] = $user['email'];
         header('Location: index.php');
         die;
