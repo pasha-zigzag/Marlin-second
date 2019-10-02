@@ -75,9 +75,14 @@ session_start();
                                         <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
 
                                         <div class="col-md-6">
-                                            <input id="email" type="email" class="form-control" name="email" autofocus >
+                                            <input  id="email" 
+                                                    type="email" 
+                                                    class="form-control 
+                                                    <?php if (isset($_SESSION['flash_email'])) :?> is-invalid <?php endif; ?>" 
+                                                    name="email" 
+                                                    autofocus >
                                             <?php if (isset($_SESSION['flash_email'])) : ?>
-                                                <span class="invalid-feedback" role="alert" style="display: block;">
+                                                <span class="invalid-feedback" role="alert">
                                                 <strong><?= $_SESSION['flash_email']; ?></strong>
                                                 </span>
                           
@@ -90,9 +95,14 @@ session_start();
                                         <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                                         <div class="col-md-6">
-                                            <input id="password" type="password" class="form-control" name="password"  autocomplete="current-password">
+                                            <input  id="password" 
+                                                    type="password" 
+                                                    class="form-control
+                                                    <?php if (isset($_SESSION['flash_password'])) : ?> is-invalid <?php endif; ?>" 
+                                                    name="password"  
+                                                    autocomplete="current-password">
                                             <?php if (isset($_SESSION['flash_password'])) : ?>
-                                                <span class="invalid-feedback" role="alert" style="display: block;">
+                                                <span class="invalid-feedback" role="alert">
                                                 <strong><?= $_SESSION['flash_password']; ?></strong>
                                                 </span>
                           

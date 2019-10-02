@@ -38,7 +38,6 @@
         $auth = false;
     }
 
-    $sql = 'SELECT * FROM comments ORDER BY id DESC';
     $sql = 'SELECT users.username, comments.date, comments.text FROM comments
     INNER JOIN users ON comments.user_id=users.id
     ORDER BY users.id DESC';

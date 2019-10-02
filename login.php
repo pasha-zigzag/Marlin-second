@@ -28,8 +28,8 @@ if( isset($_SESSION['flash_email']) || isset($_SESSION['flash_password']) ) {
 
 //Cookie
 if($_POST['remember']) {
-    setcookie('email', $email);
-    setcookie('pass', password_hash($password, PASSWORD_DEFAULT) );
+    setcookie('email', $email, time()+3600);
+    setcookie('pass', password_hash($password, PASSWORD_DEFAULT), time()+3600 );
 } else {
     setcookie('email', '', 0);
     setcookie('pass', '', 0);
@@ -46,16 +46,16 @@ $charset = 'utf8'; // кодировка
 $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
 $pdo = new PDO($dsn, $db_user, $db_password); 
 
-$sql = 'SELECT id, username, email, password FROM users WHERE email=:email';
+$sql = 'SELECT * FROM users WHERE email=:email';
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':email' => $email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if($user) {
     if(password_verify($password, $user['password'])) {
-        session_start();
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['email'] = $user['email'];
+        $_SESSION['image'] = $user['image'];
         header('Location: index.php');
         die;
     } else {
