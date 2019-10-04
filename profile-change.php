@@ -19,14 +19,25 @@ $email = $_POST['email'];
 // Валидация данных
 if(empty($username)) {
     $username = $_SESSION['username'];
-}   elseif (strlen($username) > 15) {
+} elseif (strlen($username) > 30) {
     echo strlen($username); die;
     $_SESSION['flash_user'] = 'Введите корректное имя';
 }
 
 if(empty($email)) {
     $email = $_SESSION['email'];
-} 
+} else {
+    //Проверяем, есть ли уже такой email в базе
+    $sql = 'SELECT email FROM users WHERE email!=?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([ $_SESSION['email'] ]);
+    $emails = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+    foreach($emails as $mail) {  
+        if($email === $mail['email']) {
+            $_SESSION['flash_email'] = 'Такой Email уже занят!';
+        }
+    }
+}
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $_SESSION['flash_email'] = 'Не корректный Email';
