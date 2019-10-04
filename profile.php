@@ -201,22 +201,61 @@
                                 <?php unset($_SESSION['flash_success_pass']); ?>
                             <?php endif; ?>
 
-                            <form action="password-change.php" method="post" novalidate>
+                            <form action="password_change.php" method="post" novalidate>
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="current">Текущий пароль</label>
-                                            <input type="password" name="current" class="form-control" id="current">
+                                            <input  type="password" 
+                                                    name="current" 
+                                                    class=" form-control
+                                                            <?php if (isset($_SESSION['flash_current'])) :?> is-invalid <?php endif; ?>" 
+                                                    id="current">
+                                            
+                                            <?php if (isset($_SESSION['flash_current'])) : ?>
+                                                <span class="text text-danger">
+                                                    <?= $_SESSION['flash_current']; ?>
+                                                </span>
+                          
+                                                <?php unset($_SESSION['flash_current']); ?>
+                                            <?php endif; ?>
+
                                         </div>
 
                                         <div class="form-group">
                                             <label for="password">Новый пароль</label>
-                                            <input type="password" name="password" class="form-control" id="password">
+                                            <input  type="password" 
+                                                    name="password" 
+                                                    class="form-control
+                                                    <?php if (isset($_SESSION['flash_password'])) :?> is-invalid <?php endif; ?>" 
+                                                    id="password">
+
+                                            <?php if (isset($_SESSION['flash_password'])) : ?>
+                                                <span class="text text-danger">
+                                                    <?= $_SESSION['flash_password']; ?>
+                                                </span>
+                          
+                                                <?php unset($_SESSION['flash_password']); ?>
+                                            <?php endif; ?>
+
                                         </div>
 
                                         <div class="form-group">
                                             <label for="password_confirmation">Подтверждение пароля</label>
-                                            <input type="password" name="password_confirmation" class="form-control" id="password_confirmation">
+                                            <input  type="password" 
+                                                    name="password_confirmation" 
+                                                    class="form-control
+                                                    <?php if (isset($_SESSION['flash_password_confirmation'])) :?> is-invalid <?php endif; ?>" 
+                                                    id="password_confirmation">
+
+                                            <?php if (isset($_SESSION['flash_password_confirmation'])) : ?>
+                                                <span class="text text-danger">
+                                                    <?= $_SESSION['flash_password_confirmation']; ?>
+                                                </span>
+                          
+                                                <?php unset($_SESSION['flash_password_confirmation']); ?>
+                                            <?php endif; ?>
+
                                         </div>
 
                                         <button class="btn btn-success">Изменить пароль</button>
