@@ -56,6 +56,12 @@ if($user) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['image'] = $user['image'];
+
+        if($user['email'] == 'admin@mail.ru') {
+            $_SESSION['admin'] = true;
+            header('Location: admin.php');
+            die;
+        }
         header('Location: index.php');
         die;
     } else {

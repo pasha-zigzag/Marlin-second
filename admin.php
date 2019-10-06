@@ -1,3 +1,37 @@
+<?php
+
+session_start();
+
+// Соединяемся с базой
+$driver = 'mysql'; // тип базы данных, с которой мы будем работать 
+$host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
+$db_name = 'marlin-second'; // имя базы данных 
+$db_user = 'root'; // имя пользователя для базы данных 
+$db_password = ''; // пароль пользователя 
+$charset = 'utf8'; // кодировка
+
+$dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
+$pdo = new PDO($dsn, $db_user, $db_password);
+
+//Проверяем авторизацию
+if(!$_SESSION['admin']) {
+    header('Location: index.php');
+}
+
+$sql = 'SELECT users.username, users.image, comments.id, comments.date, comments.text, comments.visibility FROM comments
+INNER JOIN users ON comments.user_id=users.id
+ORDER BY users.id DESC';
+$stmt = $pdo->query($sql);
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//Меняем формат даты
+foreach($comments as $key => $data) {
+    $data['date'] = strtotime($data['date']);
+    $comments[$key]['date'] = date('d/m/Y', $data['date']);
+}
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +51,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index.php">
                     Project
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,10 +68,10 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                             <li class="nav-item">
-                                <a class="nav-link" href="login.html">Login</a>
+                                <a class="nav-link" href="profile.php"><?php echo $username ?></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="register.html">Register</a>
+                                <a class="nav-link" href="logout.php">Выйти</a>
                             </li>
                     </ul>
                 </div>
@@ -64,21 +98,26 @@
                                     </thead>
 
                                     <tbody>
+                                        <?php foreach ($comments as $comment) :?>
+                                        
                                         <tr>
                                             <td>
-                                                <img src="img/no-user.jpg" alt="" class="img-fluid" width="64" height="64">
+                                                <img src=" <?= $comment['image']; ?> " alt="" class="img-fluid" width="64" height="64">
                                             </td>
-                                            <td>John</td>
-                                            <td>12/08/2045</td>
-                                            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta aut quam cumque libero reiciendis, dolor.</td>
+                                            <td> <?= $comment['username']; ?> </td>
+                                            <td> <?= $comment['date']; ?> </td>
+                                            <td> <?= $comment['text']; ?> </td>
                                             <td>
-                                                    <a href="" class="btn btn-success">Разрешить</a>
-
-                                                    <a href="" class="btn btn-warning">Запретить</a>
-
-                                                <a href="" onclick="return confirm('are you sure?')" class="btn btn-danger">Удалить</a>
+                                                <?php if($comment['visibility']) : ?>
+                                                    <a href="visibility.php?id=<?= $comment['id']; ?>" class="btn btn-warning">Запретить</a>
+                                                <?php else : ?>
+                                                    <a href="visibility.php?id=<?= $comment['id']; ?>" class="btn btn-success">Разрешить</a>
+                                                <?php endif; ?>
+                                                <a href="delete.php?id=<?= $comment['id']; ?>" onclick="return confirm('are you sure?')" class="btn btn-danger">Удалить</a>
                                             </td>
                                         </tr>
+
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>

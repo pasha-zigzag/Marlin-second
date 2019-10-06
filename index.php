@@ -1,6 +1,6 @@
 <?php
     session_start();
-
+echo $is_admin;
     // Соединяемся с базой
     $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
     $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
@@ -38,7 +38,7 @@
         $auth = false;
     }
 
-    $sql = 'SELECT users.username, comments.date, comments.text FROM comments
+    $sql = 'SELECT users.username, comments.date, comments.text, comments.visibility FROM comments
     INNER JOIN users ON comments.user_id=users.id
     ORDER BY users.id DESC';
     $stmt = $pdo->query($sql);
@@ -131,16 +131,20 @@
                                 <?php endif; ?>
 
                                 <?php foreach ($comments as $comment) :?>
-                                    <div class="media">
-                                    <img src="img/no-user.jpg" class="mr-3" alt="..." width="64" height="64">
-                                    <div class="media-body">
-                                        <h5 class="mt-0"> <?= $comment['username']; ?> </h5> 
-                                        <span><small> <?= $comment['date']; ?> </small></span>
-                                        <p>
-                                            <?= $comment['text']; ?>
-                                        </p>
-                                    </div>
-                                    </div>
+
+                                    <?php if($comment['visibility']) : ?>
+                                        <div class="media">
+                                        <img src="img/no-user.jpg" class="mr-3" alt="..." width="64" height="64">
+                                        <div class="media-body">
+                                            <h5 class="mt-0"> <?= $comment['username']; ?> </h5> 
+                                            <span><small> <?= $comment['date']; ?> </small></span>
+                                            <p>
+                                                <?= $comment['text']; ?>
+                                            </p>
+                                        </div>
+                                        </div>
+                                    <?php endif; ?>
+
                                 <?php endforeach; ?>
                                 
                             </div>
